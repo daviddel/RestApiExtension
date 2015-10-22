@@ -1,16 +1,13 @@
 <?php
 
-namespace DavidDel\RestApi\RestApiExtension;
+namespace DavidDel\RestApi\RestApiExtension\ServiceContainer;
 
-use Symfony\Component\Config\FileLocator,
-    Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition,
-    Symfony\Component\DependencyInjection\ContainerBuilder,
-    Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
+use Symfony\Component\Config\Definition\Builder\ArrayNodeDefinition,
+    Symfony\Component\DependencyInjection\ContainerBuilder;
 
 use Behat\Testwork\ServiceContainer\Extension as ExtensionInterface;
 use Behat\Testwork\ServiceContainer\ExtensionManager;
 use Symfony\Component\DependencyInjection\Definition;
-use Symfony\Component\DependencyInjection\Reference;
 use Behat\Behat\Context\ServiceContainer\ContextExtension;
 
 /**
@@ -18,7 +15,7 @@ use Behat\Behat\Context\ServiceContainer\ContextExtension;
  *
  * @author Alexandre Salomé <alexandre.salome@gmail.com>
  */
-class Extension implements ExtensionInterface
+class RestApiExtension implements ExtensionInterface
 {
     const REST_API_ID = 'rest_api';
 
@@ -27,10 +24,7 @@ class Extension implements ExtensionInterface
      */
     public function load(ContainerBuilder $container, array $config)
     {
-        $loader = new XmlFileLoader($container, new FileLocator(__DIR__.'/services'));
         $container->setParameter('behat.rest_api.base_url', $config['base_url']);
-
-        $loader->load('core.xml');
         $this->loadContextInitializer($container);
     }
 
